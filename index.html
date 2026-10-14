@@ -1,105 +1,324 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meridian Wire — Friday Dispatch</title>
-<link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dear Nicolas: Do Your Homework</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Kalam:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: a graded homework sheet. Graph-paper ground, red-pen teacher notes in the margins, one big brain diagram up top. */
+:root{
+  --paper:#f3f6fb; --grid:#d9e2f0; --ink:#1b2340; --muted:#56607e;
+  --red:#d6312b; --brain:#f2a7b8; --brain-line:#b8506c; --card:#ffffff; --ok:#1f8a5b;
+  --display:"Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, sans-serif;
+  --pen:"Kalam", "Comic Sans MS", cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#121829; --grid:#1f2942; --ink:#e8ecf7; --muted:#9aa4c2;
+  --red:#ff6b5e; --brain:#e98aa1; --brain-line:#ffd0db; --card:#1a2238; --ok:#4fd197; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121829; --grid:#1f2942; --ink:#e8ecf7; --muted:#9aa4c2;
+  --red:#ff6b5e; --brain:#e98aa1; --brain-line:#ffd0db; --card:#1a2238; --ok:#4fd197; color-scheme:dark}
+
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));}
+section{padding-block:56px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.05;margin:0}
+h1{font-size:clamp(2.6rem,8vw,5.4rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:clamp(1.8rem,4.5vw,2.8rem);font-weight:800;margin-bottom:18px}
+h3{font-size:1.25rem;font-weight:800;margin-bottom:6px}
+p{margin:0;max-width:62ch}
+.pen{font-family:var(--pen);color:var(--red);font-weight:700}
+.eyebrow{font-family:var(--body);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:var(--muted)}
+
+/* hero */
+.hero{padding-block:48px 24px;display:grid;gap:18px}
+.to{font-family:var(--pen);font-size:1.5rem;color:var(--red);transform:rotate(-2deg);display:inline-block}
+.strike{position:relative;white-space:nowrap}
+.strike::after{content:"";position:absolute;left:-4%;right:-4%;top:52%;height:.09em;background:var(--red);transform:rotate(-3deg);border-radius:4px}
+.lede{font-size:1.15rem;color:var(--muted)}
+
+/* brains */
+.brains{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:12px;background:var(--card);border:2px solid var(--ink);border-radius:6px;padding:28px 20px 20px;margin-top:10px;box-shadow:6px 6px 0 var(--ink)}
+.brain-col{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0}
+.brain-label{font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,4vw,2.2rem);letter-spacing:.04em;text-transform:uppercase}
+.brain-label.after{color:var(--red)}
+.brain-svg{width:100%;max-width:320px;height:auto;display:block}
+.brain-svg .lobe{fill:var(--brain);stroke:var(--brain-line);stroke-width:3}
+.brain-svg .fold{fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round}
+.small-brain{width:34%;transition:width .5s cubic-bezier(.3,1.4,.5,1)}
+.arrow{font-family:var(--pen);color:var(--red);font-size:1.1rem;text-align:center;align-self:center;line-height:1.2}
+.arrow b{display:block;font-size:2.4rem}
+.cap{font-size:.9rem;color:var(--muted);text-align:center}
+.disclaimer{font-size:.85rem;color:var(--muted);margin-top:10px}
+
+/* slider */
+.shrinker{display:grid;gap:12px;margin-top:22px}
+.shrinker label{font-weight:700}
+input[type=range]{width:100%;accent-color:var(--red)}
+.readout{display:flex;flex-wrap:wrap;gap:8px 24px;font-variant-numeric:tabular-nums}
+.readout strong{font-family:var(--display);font-size:1.4rem}
+
+/* reasons */
+.reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.reason{background:var(--card);border:1.5px solid var(--grid);border-radius:4px;padding:20px;display:grid;gap:8px;align-content:start;min-width:0}
+.reason .pen{font-size:1.05rem}
+.grade{float:right;font-family:var(--pen);font-size:2rem;color:var(--red);border:2.5px solid var(--red);border-radius:50%;width:56px;height:56px;display:grid;place-items:center;transform:rotate(8deg);margin:0 0 6px 10px}
+
+/* research */
+.lab{background:var(--ink);color:var(--paper);border-radius:6px;padding:32px 24px;display:grid;gap:14px}
+.lab h2{color:var(--paper)}
+.lab p{color:var(--paper);opacity:.92}
+.lab .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:6px}
+.lab .stat{border-top:3px solid var(--brain);padding-top:10px}
+.lab .stat strong{font-family:var(--display);font-size:1.3rem;display:block}
+
+/* compare table */
+.tablebox{overflow-x:auto;background:var(--card);border:2px solid var(--ink);border-radius:6px}
+table{border-collapse:collapse;width:100%;min-width:520px}
+th,td{text-align:left;padding:14px 16px;border-bottom:1px solid var(--grid);vertical-align:top}
+th{font-family:var(--display);font-size:1.1rem}
+td:first-child{font-weight:700;width:30%}
+tr:last-child td{border-bottom:0}
+.yes{color:var(--ok);font-weight:700}.no{color:var(--red);font-weight:700}
+
+/* quiz */
+.quiz{display:grid;gap:10px;background:var(--card);border:1.5px solid var(--grid);border-radius:4px;padding:22px}
+.quiz label{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.quiz input{width:20px;height:20px;margin-top:3px;accent-color:var(--red);flex:none}
+.verdict{font-family:var(--pen);font-size:1.4rem;color:var(--red);min-height:2.2em}
+
+/* smart way */
+.smart{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.smart ul{margin:8px 0 0;padding-left:1.2em;display:grid;gap:6px}
+.list{background:var(--card);border-radius:4px;padding:20px;border:1.5px solid var(--grid)}
+.list.good h3{color:var(--ok)} .list.bad h3{color:var(--red)}
+
+/* pledge */
+.pledge{background:var(--card);border:2px dashed var(--red);border-radius:6px;padding:28px 22px;display:grid;gap:14px;position:relative;overflow:hidden}
+.pledge blockquote{margin:0;font-family:var(--pen);font-size:1.35rem;line-height:1.5}
+.sign-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.sign-row input{font:inherit;font-family:var(--pen);font-size:1.3rem;padding:8px 12px;border:0;border-bottom:2px solid var(--ink);background:transparent;color:var(--ink);min-width:0;flex:1 1 220px}
+button{font:inherit;font-weight:700;background:var(--red);color:#fff;border:0;border-radius:4px;padding:12px 20px;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.stamp{position:absolute;right:18px;top:18px;font-family:var(--display);font-weight:800;color:var(--ok);border:4px solid var(--ok);padding:6px 12px;border-radius:6px;transform:rotate(-12deg);font-size:1.3rem;letter-spacing:.06em;text-transform:uppercase;background:var(--card)}
+.stamp.pop{animation:pop .4s ease-out}
+@keyframes pop{from{transform:rotate(-12deg) scale(2.2);opacity:0}to{transform:rotate(-12deg) scale(1);opacity:1}}
+
+footer{padding-block:40px 60px;color:var(--muted);font-size:.95rem;display:grid;gap:6px}
+
+@media (max-width:560px){
+  .brains{grid-template-columns:1fr 1fr;padding:20px 12px}
+  .arrow{display:none}
+  .stamp{position:static;justify-self:start}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
 
-<header class="masthead">
-  <div class="wrap masthead-row">
-    <div class="brand">MERIDIAN <em>WIRE</em></div>
-    <div class="masthead-meta">
-      FRIDAY, 10 JUL 2026 · EDITION 132<br>
-      <span class="clock" data-clock>--:--:-- UTC</span>
-    </div>
-  </div>
-  <nav class="primary-nav wrap" style="padding-left:0; padding-right:0;">
-    <a href="index.html" class="active">Home</a>
-    <a href="markets.html">Markets</a>
-    <a href="world.html">World</a>
-    <a href="conflict.html">Conflict</a>
-    <a href="technology.html">Technology</a>
-  </nav>
-</header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="brain" viewBox="0 0 200 165">
+      <path style="fill:var(--brain);stroke:var(--brain-line);stroke-width:3" d="M118 126 C120 140 122 150 128 160 L140 160 C134 148 132 136 134 124 Z"/>
+      <path style="fill:var(--brain);stroke:var(--brain-line);stroke-width:3" d="M40 110 C15 105 10 75 25 60 C20 35 45 15 70 22 C80 8 110 5 125 18 C145 8 175 20 178 45 C195 55 195 85 182 98 C185 118 165 130 148 124 C140 140 115 145 100 132 C88 142 62 140 58 126 C48 128 40 120 40 110 Z"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M70 22 C68 40 85 45 82 60"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M125 18 C118 32 130 40 122 55 C116 66 128 74 120 86"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M25 60 C40 62 45 75 60 72 C72 70 76 84 90 82"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M178 45 C165 50 160 62 148 60"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M182 98 C168 96 162 84 150 88 C140 92 136 104 124 102"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M58 126 C62 112 76 110 80 100"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M100 132 C102 118 112 114 108 102"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M95 40 C100 50 96 58 104 66"/>
+      <path style="fill:none;stroke:var(--brain-line);stroke-width:2.4;stroke-linecap:round" d="M40 90 C50 92 54 100 66 98"/>
+    </symbol>
+  </defs>
+</svg>
 
-<div class="ticker">
-  <div class="ticker-track">
-    <span class="ticker-item"><span class="tag">MKT</span>Asian equities rally, Kospi jumps 4% on SK Hynix listing</span>
-    <span class="ticker-item"><span class="tag">CFL</span>US strikes ~90 Iranian targets as fragile ceasefire unravels</span>
-    <span class="ticker-item"><span class="tag">WLD</span>Andy Burnham poised to become UK's next prime minister</span>
-    <span class="ticker-item"><span class="tag">TCH</span>Grok 4.5 lands in fourth place on independent benchmarks</span>
-    <span class="ticker-item"><span class="tag">MKT</span>Wall Street closes higher, Nasdaq up 1.3% on chip rebound</span>
-    <span class="ticker-item"><span class="tag">CFL</span>Iran fires on Jordan, Kuwait, Qatar and Bahrain in retaliation</span>
-    <span class="ticker-item"><span class="tag">WLD</span>Deadly earthquakes deepen Venezuela's post-Maduro uncertainty</span>
-    <span class="ticker-item"><span class="tag">TCH</span>OpenAI and Anthropic launch rival "super app" agents same day</span>
-    <span class="ticker-item"><span class="tag">MKT</span>SK Hynix ADRs price at premium ahead of Nasdaq debut</span>
-    <span class="ticker-item"><span class="tag">CFL</span>Khamenei buried after days of funeral processions in Mashhad</span>
-    <span class="ticker-item"><span class="tag">WLD</span>Eleven firefighters killed battling Spain's worst blaze on record</span>
-    <span class="ticker-item"><span class="tag">TCH</span>Gemini 3.5 Pro slips further behind schedule, still unreleased</span>
-    <!-- duplicate set for seamless loop -->
-    <span class="ticker-item"><span class="tag">MKT</span>Asian equities rally, Kospi jumps 4% on SK Hynix listing</span>
-    <span class="ticker-item"><span class="tag">CFL</span>US strikes ~90 Iranian targets as fragile ceasefire unravels</span>
-    <span class="ticker-item"><span class="tag">WLD</span>Andy Burnham poised to become UK's next prime minister</span>
-    <span class="ticker-item"><span class="tag">TCH</span>Grok 4.5 lands in fourth place on independent benchmarks</span>
-    <span class="ticker-item"><span class="tag">MKT</span>Wall Street closes higher, Nasdaq up 1.3% on chip rebound</span>
-    <span class="ticker-item"><span class="tag">CFL</span>Iran fires on Jordan, Kuwait, Qatar and Bahrain in retaliation</span>
-    <span class="ticker-item"><span class="tag">WLD</span>Deadly earthquakes deepen Venezuela's post-Maduro uncertainty</span>
-    <span class="ticker-item"><span class="tag">TCH</span>OpenAI and Anthropic launch rival "super app" agents same day</span>
-  </div>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="to">To: Nicolas Faryar ✎</span>
+    <h1>Nicolas, close the <span class="strike">chatbot</span>. Open your brain.</h1>
+    <p class="lede">A friendly, slightly dramatic, fully illustrated case for doing your own homework. Every time AI writes your essay, it gets the practice and you get the grade you didn't earn.</p>
+
+    <div class="brains" role="img" aria-label="Diagram: a normal size brain labeled Before, and a much smaller brain labeled After">
+      <div class="brain-col">
+        <div class="brain-label">Before</div>
+        <svg class="brain-svg" viewBox="0 0 200 165"><use href="#brain"/></svg>
+        <div class="cap">Nicolas, doing his own homework</div>
+      </div>
+      <div class="arrow"><b>→</b>one semester of<br>copy, paste,<br>submit</div>
+      <div class="brain-col">
+        <div class="brain-label after">After</div>
+        <svg class="brain-svg small-brain" id="smallBrain" viewBox="0 0 200 165"><use href="#brain"/></svg>
+        <div class="cap">Nicolas, after letting ChatGPT do it</div>
+      </div>
+    </div>
+    <p class="disclaimer">Not to scale. Your brain won't literally shrink, but the skills you don't practise really do fade. That's the serious point behind the silly picture.</p>
+
+    <div class="shrinker">
+      <label for="hw">How many assignments has AI done for you this year?</label>
+      <input type="range" id="hw" min="0" max="100" value="30">
+      <div class="readout">
+        <span>Assignments outsourced: <strong id="hwN">30</strong></span>
+        <span>Estimated brain size: <strong id="pct">58%</strong></span>
+        <span class="pen" id="note">Starting to forget how long division works.</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <p class="eyebrow">The case against</p>
+    <h2>Six reasons AI homework backfires</h2>
+    <div class="reasons">
+      <article class="reason"><span class="grade">F</span>
+        <h3>The struggle is the learning</h3>
+        <p>That annoying feeling of being stuck on a problem is literally your brain building new connections. Skip the struggle and you skip the upgrade.</p>
+        <span class="pen">No pain, no brain.</span></article>
+      <article class="reason"><span class="grade">F</span>
+        <h3>Tests don't have Wi‑Fi</h3>
+        <p>Homework is practice for exams. When the test lands on your desk and there's no chatbot to ask, the knowledge has to already be in your head.</p>
+        <span class="pen">ChatGPT isn't sitting the final for you.</span></article>
+      <article class="reason"><span class="grade">D</span>
+        <h3>AI is confidently wrong</h3>
+        <p>Chatbots make up facts, invent sources and botch maths while sounding totally sure. If you can't do it yourself, you can't spot the mistakes.</p>
+        <span class="pen">Fake quotes = real zero.</span></article>
+      <article class="reason"><span class="grade">F</span>
+        <h3>Teachers can tell</h3>
+        <p>Your teacher has read your writing all year. An essay that suddenly sounds like a corporate press release stands out, and AI detectors plus "explain this to me" questions do the rest.</p>
+        <span class="pen">"Delve" gave you away.</span></article>
+      <article class="reason"><span class="grade">D</span>
+        <h3>You forget your own work</h3>
+        <p>If you didn't write it, you can't remember it. Try explaining your last AI essay out loud without looking. Hard, right?</p>
+        <span class="pen">Wait, what was my thesis?</span></article>
+      <article class="reason"><span class="grade">F</span>
+        <h3>Thinking is a muscle</h3>
+        <p>Writing, problem-solving and focusing for more than 30 seconds all get weaker when you never use them. You're going to need them for the rest of your life.</p>
+        <span class="pen">Skip brain day, regret it later.</span></article>
+    </div>
+  </section>
+
+  <section>
+    <div class="lab">
+      <p class="eyebrow" style="color:var(--brain)">Actual science, not just vibes</p>
+      <h2>Scientists hooked brains up to sensors. ChatGPT users lit up the least.</h2>
+      <p>In 2025, researchers at MIT's Media Lab had students write essays three ways: with ChatGPT, with a search engine, or with nothing but their own brains, while EEG headsets measured brain activity.</p>
+      <div class="stats">
+        <div class="stat"><strong>Lowest engagement</strong>The ChatGPT group showed the weakest brain connectivity of all three groups.</div>
+        <div class="stat"><strong>Couldn't quote it</strong>Many ChatGPT users struggled to recall a single line from the essay they had just "written".</div>
+        <div class="stat"><strong>Got lazier over time</strong>Across sessions, the AI group leaned on copy-paste more and more.</div>
+      </div>
+      <p style="font-size:.9rem;opacity:.75">Study: "Your Brain on ChatGPT", Kosmyna et al., MIT Media Lab (2025). Small, early study, but the direction is pretty clear.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Side by side</p>
+    <h2>Nicolas vs. Nicolas‑with‑ChatGPT</h2>
+    <div class="tablebox">
+      <table>
+        <thead><tr><th></th><th>Does his own homework</th><th>Lets AI do it</th></tr></thead>
+        <tbody>
+          <tr><td>Time spent tonight</td><td>45 minutes</td><td>4 minutes</td></tr>
+          <tr><td>Remembers it next week</td><td class="yes">Yes</td><td class="no">What homework?</td></tr>
+          <tr><td>Ready for the test</td><td class="yes">Ready</td><td class="no">Panicking</td></tr>
+          <tr><td>Can explain it to the teacher</td><td class="yes">Easily</td><td class="no">"Uhh… it's about… themes?"</td></tr>
+          <tr><td>Risk of getting caught</td><td class="yes">Zero</td><td class="no">High and rising</td></tr>
+          <tr><td>Brain size (see diagram)</td><td class="yes">Full size</td><td class="no">Walnut</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Self‑check</p>
+    <h2>Quiz: Is AI eating your brain?</h2>
+    <form class="quiz" id="quiz">
+      <label><input type="checkbox" id="q1"> I've pasted a homework question straight into ChatGPT without reading it first.</label>
+      <label><input type="checkbox" id="q2"> I've submitted something I couldn't explain if someone asked.</label>
+      <label><input type="checkbox" id="q3"> I get stressed before tests because I never really practised.</label>
+      <label><input type="checkbox" id="q4"> I open an AI app before I even try the problem myself.</label>
+      <label><input type="checkbox" id="q5"> I've had to remove the word "delve" from an essay.</label>
+      <div class="verdict" id="verdict" aria-live="polite">Tick the ones that are true. Be honest, Nicolas.</div>
+    </form>
+  </section>
+
+  <section>
+    <p class="eyebrow">To be fair</p>
+    <h2>AI isn't evil. Just use it like a tutor, not a ghostwriter.</h2>
+    <div class="smart">
+      <div class="list good"><h3>Brain‑growing uses</h3>
+        <ul>
+          <li>"Explain this concept in a simpler way."</li>
+          <li>"Quiz me on chapter 4."</li>
+          <li>"Here's my answer. Where did I go wrong?"</li>
+          <li>"Give me a practice problem like this one."</li>
+        </ul></div>
+      <div class="list bad"><h3>Brain‑shrinking uses</h3>
+        <ul>
+          <li>"Write my 500‑word essay on the Cold War."</li>
+          <li>"Solve all 20 of these maths problems."</li>
+          <li>"Rewrite this so it doesn't sound like AI."</li>
+          <li>"Answer these reading questions for me."</li>
+        </ul></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Make it official</p>
+    <h2>The Homework Pledge</h2>
+    <form class="pledge" id="pledge">
+      <blockquote>I, the undersigned, promise to try every problem myself first, to use AI only to learn and never to cheat, and to keep my brain at full, glorious, Before‑picture size.</blockquote>
+      <div class="sign-row">
+        <label for="sig" class="eyebrow">Signature</label>
+        <input id="sig" value="Nicolas Faryar" autocomplete="off">
+        <button type="submit">Sign the pledge</button>
+      </div>
+      <div class="stamp" id="stamp" hidden>Brain saved</div>
+      <p class="pen" id="thanks" hidden></p>
+    </form>
+  </section>
+
+  <footer>
+    <p>Made by a friend who thinks you're way too smart to let a chatbot think for you.</p>
+    <p>Yes, an AI helped build this website. Websites aren't homework.</p>
+  </footer>
 </div>
 
-<main class="wrap">
+<script>
+(function(){
+  const hw=document.getElementById('hw'), brain=document.getElementById('smallBrain');
+  const n=document.getElementById('hwN'), pct=document.getElementById('pct'), note=document.getElementById('note');
+  const notes=[[0,"Perfect. Full-size, fully operational brain."],[10,"A little rusty, still fixable."],[25,"Starting to forget how long division works."],[45,"Can't remember what a verb is."],[65,"Asks ChatGPT what to eat for lunch."],[85,"Brain now fits inside a pistachio shell."],[100,"Brain has left the chat."]];
+  function upd(){
+    const v=+hw.value, size=Math.round(100-v*0.88);
+    n.textContent=v; pct.textContent=size+'%';
+    brain.style.width=Math.max(10,size)+'%';
+    let t=notes[0][1]; for(const [k,s] of notes){ if(v>=k) t=s; } note.textContent=t;
+  }
+  hw.addEventListener('input',upd); upd();
 
-  <section class="hero">
-    <div class="hero-kicker">Today's dispatch — filed from four desks</div>
-    <h1>Ceasefire fractures, chips rally, and a UK premiership changes hands — all before lunch in London.</h1>
-    <p>A rundown of what actually moved the world on Friday, July 10, 2026: renewed US–Iran strikes test a fragile truce, semiconductor stocks pull global markets higher, and the frontier AI race adds two more contenders in a single week.</p>
-  </section>
+  const verdict=document.getElementById('verdict');
+  const lines=["Tick the ones that are true. Be honest, Nicolas.","1 out of 5. Mostly fine, keep an eye on it.","2 out of 5. The brain is starting to shrink.","3 out of 5. Danger zone. Close the tab.","4 out of 5. Your brain is filing a complaint.","5 out of 5. Walnut status confirmed. Read this page again."];
+  document.getElementById('quiz').addEventListener('change',e=>{
+    const c=document.querySelectorAll('#quiz input:checked').length; verdict.textContent=lines[c];
+  });
 
-  <section class="section-grid">
-
-    <a class="section-card" href="markets.html">
-      <div class="cat-label c-markets"><span class="dot"></span>Markets</div>
-      <h3>Chip stocks power a global rally as oil prices ease</h3>
-      <p>The Nasdaq gained 1.3% and Asian shares jumped as investors looked past renewed Iran hostilities to bet on AI-driven semiconductor demand.</p>
-      <span class="more-link c-markets">5 stories from the markets desk</span>
-    </a>
-
-    <a class="section-card" href="world.html">
-      <div class="cat-label c-world"><span class="dot"></span>World</div>
-      <h3>UK's Labour succession, Venezuela's aftershocks, and Spain's worst fire</h3>
-      <p>Andy Burnham emerges as the likely next occupant of Downing Street, while Venezuela and Spain both confront disasters reshaping their politics.</p>
-      <span class="more-link c-world">5 stories from the world desk</span>
-    </a>
-
-    <a class="section-card" href="conflict.html">
-      <div class="cat-label c-conflict"><span class="dot"></span>Conflict</div>
-      <h3>US–Iran ceasefire collapses again after fresh strikes</h3>
-      <p>CENTCOM says it hit roughly 90 targets across Iran; Tehran answered with drones and missiles aimed at Gulf states as mediators scramble.</p>
-      <span class="more-link c-conflict">5 stories from the conflict desk</span>
-    </a>
-
-    <a class="section-card" href="technology.html">
-      <div class="cat-label c-tech"><span class="dot"></span>Technology</div>
-      <h3>Grok 4.5 arrives, and the "AI super app" war begins</h3>
-      <p>Independent benchmarks place xAI's newest model fourth, as OpenAI and Anthropic ship competing agentic platforms on the very same day.</p>
-      <span class="more-link c-tech">5 stories from the technology desk</span>
-    </a>
-
-  </section>
-
-</main>
-
-<footer class="wrap">
-  <div class="foot-row">
-    <span>MERIDIAN WIRE — an independent daily dispatch</span>
-    <span>Compiled Friday, July 10, 2026 · Sources credited on each story</span>
-  </div>
-</footer>
-
-<script src="script.js"></script>
+  document.getElementById('pledge').addEventListener('submit',e=>{
+    e.preventDefault();
+    const name=document.getElementById('sig').value.trim()||'Nicolas Faryar';
+    const st=document.getElementById('stamp'), th=document.getElementById('thanks');
+    st.hidden=false; st.classList.remove('pop'); void st.offsetWidth; st.classList.add('pop');
+    th.hidden=false; th.textContent="Signed by "+name+". Your Before brain thanks you.";
+    hw.value=0; upd();
+  });
+})();
+</script>
 </body>
 </html>
